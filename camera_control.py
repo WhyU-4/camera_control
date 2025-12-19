@@ -7,6 +7,7 @@ This script provides control for PTZ (Pan-Tilt-Zoom) cameras using the ONVIF pro
 from onvif import ONVIFCamera
 import sys
 import time
+import os
 
 
 class PTZCameraControl:
@@ -67,7 +68,7 @@ class PTZCameraControl:
             print(f"获取PTZ配置失败: {e}")
             return None
     
-    def move_continuous(self, pan_velocity, tilt_velocity, zoom_velocity=0, timeout=1):
+    def move_continuous(self, pan_velocity, tilt_velocity, zoom_velocity=0, timeout=1, wait=False):
         """
         持续移动相机
         
@@ -76,6 +77,7 @@ class PTZCameraControl:
             tilt_velocity: 垂直移动速度 (-1.0 到 1.0)
             zoom_velocity: 缩放速度 (-1.0 到 1.0)
             timeout: 移动持续时间（秒）
+            wait: 是否等待移动完成
         """
         try:
             request = self.ptz.create_type('ContinuousMove')
@@ -93,6 +95,10 @@ class PTZCameraControl:
             
             self.ptz.ContinuousMove(request)
             print(f"移动: Pan={pan_velocity}, Tilt={tilt_velocity}, Zoom={zoom_velocity}")
+            
+            # ContinuousMove是异步的，需要等待完成
+            if wait:
+                time.sleep(timeout)
             
         except Exception as e:
             print(f"移动失败: {e}")
@@ -112,43 +118,37 @@ class PTZCameraControl:
     def move_left(self, speed=0.5, duration=1):
         """向左移动"""
         print("向左移动...")
-        self.move_continuous(-speed, 0, 0, duration)
-        time.sleep(duration)
+        self.move_continuous(-speed, 0, 0, duration, wait=True)
         self.stop()
     
     def move_right(self, speed=0.5, duration=1):
         """向右移动"""
         print("向右移动...")
-        self.move_continuous(speed, 0, 0, duration)
-        time.sleep(duration)
+        self.move_continuous(speed, 0, 0, duration, wait=True)
         self.stop()
     
     def move_up(self, speed=0.5, duration=1):
         """向上移动"""
         print("向上移动...")
-        self.move_continuous(0, speed, 0, duration)
-        time.sleep(duration)
+        self.move_continuous(0, speed, 0, duration, wait=True)
         self.stop()
     
     def move_down(self, speed=0.5, duration=1):
         """向下移动"""
         print("向下移动...")
-        self.move_continuous(0, -speed, 0, duration)
-        time.sleep(duration)
+        self.move_continuous(0, -speed, 0, duration, wait=True)
         self.stop()
     
     def zoom_in(self, speed=0.5, duration=1):
         """放大"""
         print("放大...")
-        self.move_continuous(0, 0, speed, duration)
-        time.sleep(duration)
+        self.move_continuous(0, 0, speed, duration, wait=True)
         self.stop()
     
     def zoom_out(self, speed=0.5, duration=1):
         """缩小"""
         print("缩小...")
-        self.move_continuous(0, 0, -speed, duration)
-        time.sleep(duration)
+        self.move_continuous(0, 0, -speed, duration, wait=True)
         self.stop()
     
     def goto_home_position(self):
@@ -187,11 +187,11 @@ class PTZCameraControl:
 def main():
     """主函数 - 演示PTZ控制功能"""
     
-    # 相机配置
-    CAMERA_IP = "192.168.1.21"
-    CAMERA_PORT = 80
-    USERNAME = "admin"
-    PASSWORD = "888888"
+    # 相机配置 - 支持环境变量覆盖，默认使用指定的配置
+    CAMERA_IP = os.getenv("CAMERA_IP", "192.168.1.21")
+    CAMERA_PORT = int(os.getenv("CAMERA_PORT", "80"))
+    USERNAME = os.getenv("CAMERA_USERNAME", "admin")
+    PASSWORD = os.getenv("CAMERA_PASSWORD", "888888")
     
     # 创建相机控制对象
     ptz_camera = PTZCameraControl(CAMERA_IP, CAMERA_PORT, USERNAME, PASSWORD)

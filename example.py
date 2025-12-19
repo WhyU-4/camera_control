@@ -6,16 +6,17 @@ Example script: Demonstrates how to use the PTZCameraControl class
 
 from camera_control import PTZCameraControl
 import time
+import os
 
 
 def example_usage():
     """演示基本的相机控制功能"""
     
-    # 相机配置
-    CAMERA_IP = "192.168.1.21"
-    CAMERA_PORT = 80
-    USERNAME = "admin"
-    PASSWORD = "888888"
+    # 相机配置 - 支持环境变量覆盖，默认使用指定的配置
+    CAMERA_IP = os.getenv("CAMERA_IP", "192.168.1.21")
+    CAMERA_PORT = int(os.getenv("CAMERA_PORT", "80"))
+    USERNAME = os.getenv("CAMERA_USERNAME", "admin")
+    PASSWORD = os.getenv("CAMERA_PASSWORD", "888888")
     
     # 创建相机控制对象
     camera = PTZCameraControl(CAMERA_IP, CAMERA_PORT, USERNAME, PASSWORD)

@@ -36,7 +36,19 @@ pip install -r requirements.txt
 - 用户名: admin
 - 密码: 888888
 
-如需修改配置，请编辑 `camera_control.py` 或 `example.py` 中的相机参数。
+### 修改配置
+
+有两种方式修改配置:
+
+1. **使用环境变量** (推荐，更安全):
+```bash
+export CAMERA_IP="192.168.1.21"
+export CAMERA_PORT="80"
+export CAMERA_USERNAME="admin"
+export CAMERA_PASSWORD="888888"
+```
+
+2. **直接修改代码**: 编辑 `camera_control.py` 或 `example.py` 中的相机参数。
 
 ## 使用方法
 
