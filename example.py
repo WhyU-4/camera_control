@@ -14,7 +14,7 @@ def example_usage():
     
     # 相机配置 - 支持环境变量覆盖，默认使用指定的配置
     CAMERA_IP = os.getenv("CAMERA_IP", "192.168.1.21")
-    CAMERA_PORT = int(os.getenv("CAMERA_PORT", "80"))
+    CAMERA_PORT = int(os.getenv("CAMERA_PORT", "81"))
     USERNAME = os.getenv("CAMERA_USERNAME", "admin")
     PASSWORD = os.getenv("CAMERA_PASSWORD", "888888")
     
