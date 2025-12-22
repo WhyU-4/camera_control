@@ -43,7 +43,7 @@ pip install -r requirements.txt
 1. **使用环境变量** (推荐，更安全):
 ```bash
 export CAMERA_IP="192.168.1.21"
-export CAMERA_PORT="80"
+export CAMERA_PORT="10080"
 export CAMERA_USERNAME="admin"
 export CAMERA_PASSWORD="888888"
 ```
@@ -86,7 +86,7 @@ python example.py
 from camera_control import PTZCameraControl
 
 # 创建相机控制对象
-camera = PTZCameraControl("192.168.1.21", 80, "admin", "888888")
+camera = PTZCameraControl("192.168.1.21", 10080, "admin", "888888")
 
 # 连接到相机
 if camera.connect():
