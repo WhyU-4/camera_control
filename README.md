@@ -32,7 +32,7 @@ pip install -r requirements.txt
 
 默认相机配置:
 - IP地址: 192.168.1.21
-- 端口: 80
+- 端口: 10080
 - 用户名: admin
 - 密码: 888888
 
