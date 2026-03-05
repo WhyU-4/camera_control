@@ -70,6 +70,7 @@ python camera_control.py
 7. 获取当前状态
 8. 回到起始位置
 9. 设置当前位置为起始位置
+10. 获取设备信息（型号/固件）
 0. 退出
 
 ### 方法2: 编程方式
@@ -116,6 +117,7 @@ camera = PTZCameraControl(ip, port, username, password)
 - `zoom_out(speed, duration)` - 缩小
 - `stop()` - 停止所有移动
 - `get_status()` - 获取当前PTZ状态
+- `get_device_information()` - 获取设备信息（厂商、型号、固件版本、序列号）
 - `goto_home_position()` - 回到起始位置
 - `set_home_position()` - 设置当前位置为起始位置
 - `move_continuous(pan, tilt, zoom, timeout)` - 自定义连续移动
