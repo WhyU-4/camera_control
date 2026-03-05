@@ -183,6 +183,21 @@ class PTZCameraControl:
             print(f"获取状态失败: {e}")
             return None
 
+    def get_device_information(self):
+        """获取设备信息（厂商、型号、固件版本等）"""
+        try:
+            device_service = self.camera.create_devicemgmt_service()
+            info = device_service.GetDeviceInformation()
+            print(f"厂商: {info.Manufacturer}")
+            print(f"型号: {info.Model}")
+            print(f"固件版本: {info.FirmwareVersion}")
+            print(f"序列号: {info.SerialNumber}")
+            print(f"硬件ID: {info.HardwareId}")
+            return info
+        except Exception as e:
+            print(f"获取设备信息失败: {e}")
+            return None
+
 
 def main():
     """主函数 - 演示PTZ控制功能"""
@@ -215,10 +230,11 @@ def main():
         print("7. 获取当前状态")
         print("8. 回到起始位置")
         print("9. 设置当前位置为起始位置")
+        print("10. 获取设备信息（型号/固件）")
         print("0. 退出")
         print("="*50)
         
-        choice = input("请选择操作 (0-9): ").strip()
+        choice = input("请选择操作 (0-10): ").strip()
         
         if choice == '1':
             ptz_camera.move_left()
@@ -238,6 +254,8 @@ def main():
             ptz_camera.goto_home_position()
         elif choice == '9':
             ptz_camera.set_home_position()
+        elif choice == '10':
+            ptz_camera.get_device_information()
         elif choice == '0':
             print("退出程序")
             break
